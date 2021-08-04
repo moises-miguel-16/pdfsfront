@@ -1,0 +1,39 @@
+<div class="container mt-5">
+    <div class="card border-primary mb-3 w-100">
+        <div class="card-header bg-primary text-light ">LISTA REPORTE - {{descripcion}}</div>
+        <div class="card-body">
+            <div class="row w-100 mb-3">
+                <div class="col-8">
+                  
+                </div>
+                <div class="col-4 text-right">
+                    <button class="btn btn-success text-right">DESCARGAR</button>
+
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <!-- <th scope="col">#</th> -->
+                    <th scope="col">APELLIDO</th>
+                    <th scope="col">CARGO</th>
+                    <th scope="col">MONTO PAGO</th>
+                    <th scope="col">ACCION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let elemento of detalles">
+                    <!-- <th scope="row">1</th> -->
+                    <td>{{elemento['apellido']}}</td>
+                    <td>{{elemento['cargo']}}</td>
+                    <td>{{elemento['montopago']}}</td>
+                    
+                    <td><button class="btn btn-danger text-center" (click)="abrirModal(elemento['detalle'])">👁</button></td>
+                  </tr>
+                
+               
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="container p-2">
+    <div class="card">
+        <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">DESCRIPCION</th>
+                <th scope="col">DESCUENTO</th>
+                <th scope="col">FECHA</th>
+                <th scope="col">TIPO</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let elemento of Elemento">
+                <th scope="row">{{elemento.descripcion}}</th>
+                <td>{{elemento.descuento}}</td>
+                <td>{{elemento.fechapago}}</td>
+                <td>@{{elemento.tipo}}</td>
+              </tr>
+              
+            </tbody>
+          </table>
+    </div>
+  
+</div>

@@ -1,0 +1,39 @@
+<div class="container mt-5">
+    <div class="card border-primary mb-3 w-100">
+        <div class="card-header bg-primary text-light ">LISTA REPORTE</div>
+        <div class="card-body">
+            <!-- <div class="row w-100">
+                <div class="col-8">
+                  
+                </div>
+                <div class="col-4 text-right">
+                    <button class="btn btn-success text-right">DESCARGAR</button>
+
+                </div>
+            </div> -->
+
+            <table class="table table-bordered">
+                <thead class="bg-primary text-light">
+                    <tr>
+                        <th scope="col">COD</th>
+                        <th scope="col">DESCRIPCIÓN</th>
+                        <th scope="col">FECHA</th>
+                        <th scope="col">MONTO</th>
+                        <th scope="col">ACCiÓN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let elemento of infoTabla" class="text-center">
+                        <th scope="row">{{elemento['id']}}</th>
+                        <td>{{elemento['descripcion']}}</td>
+                        <td>{{elemento['ffecha']}}</td>
+                        <td>{{elemento['monto']}}</td>
+                        <button class="btn btn-danger text-center" routerLink="./detalle/{{elemento['id']}}/{{elemento['descripcion']}}">👁</button>
+                    </tr>
+                   
+                </tbody>
+            </table>
+        </div>
+        <!-- <div class="card-footer bg-transparent border-primary">Footer</div> -->
+    </div>
+</div>
