@@ -59,11 +59,11 @@ export class DetalleComponent implements OnInit {
     
   }
   descargar(){
-    // this.detalles.forEach( detalle => {
-    //   this.descargarDetalle(detalle);
-    // } )
+    this.detalles.forEach( detalle => {
+      this.descargarDetalle(detalle);
+    } )
 
-    this.descargarDetalle(this.detalles[0]);
+    // this.descargarDetalle(this.detalles[0]);
     // this.descargarDetalle(this.detalles[21]);
     // this.descargarDetalle(this.detalles[2]);
   }
@@ -163,7 +163,9 @@ export class DetalleComponent implements OnInit {
 
     doc.addImage('./assets/imgs/footer.png','PNG',0,247,210,50);
 
-    doc.save("a4.pdf");
+    let extension = '.pdf'
+
+    doc.save(`${detalle.nombre}_${detalle.apellido}${extension}`);
   }
 
 
