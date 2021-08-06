@@ -165,9 +165,10 @@ export class DetalleComponent implements OnInit {
     doc.addImage('./assets/imgs/footer.png','PNG',0,247,210,50);
 
     let extension = this.extraerMesAnioCorchete(detalle.detalle[0].fechapago)+'.pdf'
-    let apellidoN = detalle.apellido.split(' ')[0]+detalle.apellido.split(' ')[1]+detalle.nombre.substring(0,1);
+    // let apellidoN = detalle.apellido.split(' ')[0]+detalle.apellido.split(' ')[1]+detalle.nombre.substring(0,1);
+    let dni = detalle.login
 
-    doc.save(`${apellidoN}_Adelanto${extension}`);
+    doc.save(`${dni}_Adelanto${extension}`);
   }
   extraerMesAnioCorchete( fecha:any ){
     let arrayfecha = fecha.split('-');
