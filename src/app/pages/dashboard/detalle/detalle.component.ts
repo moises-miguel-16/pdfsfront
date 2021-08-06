@@ -69,7 +69,7 @@ export class DetalleComponent implements OnInit {
   }
   descargarDetalle( detalle:any ){
     let doc = new jsPDF();
-    console.log(doc.getFontList());
+    console.log(detalle);
     doc.setFontSize(10);
     doc.addFileToVFS('SEGOEUI-normal.ttf', token)
     doc.addFont('SEGOEUI-normal.ttf', 'SEGOEUI', 'normal');
@@ -160,12 +160,38 @@ export class DetalleComponent implements OnInit {
     //CIMA chiquito
     doc.addImage('./assets/imgs/cimachiquito.png','PNG',10,70+5*1.5*detalle.detalle.length+35,22,10);
 
+    //DNI_Adelanto[Mes].[Año].pdf
 
     doc.addImage('./assets/imgs/footer.png','PNG',0,247,210,50);
 
-    let extension = '.pdf'
+    let extension = this.extraerMesAnioCorchete(detalle.detalle[0].fechapago)+'.pdf'
+    let apellidoN = detalle.apellido.split(' ')[0]+detalle.apellido.split(' ')[1]+detalle.nombre.substring(0,1);
 
-    doc.save(`${detalle.nombre}_${detalle.apellido}${extension}`);
+    doc.save(`${apellidoN}_Adelanto${extension}`);
+  }
+  extraerMesAnioCorchete( fecha:any ){
+    let arrayfecha = fecha.split('-');
+    console.log(arrayfecha);
+    let anio = arrayfecha[0];
+    let mes = arrayfecha[1];
+    let dia = arrayfecha[2];
+
+    switch(mes){
+      case "01": mes = 'ENERO';break;
+      case "02": mes = 'FEBRERO';break;
+      case "03": mes = 'MARZO';break;
+      case "04": mes = 'ABRIL';break;
+      case "05": mes = 'MAYO';break;
+      case "06": mes = 'JUNIO';break;
+      case "07": mes = 'JULIO';break;
+      case "08": mes = 'AGOSTO';break;
+      case "09": mes = 'SETIEMBRE';break;
+      case "10": mes = 'OCTUBRE';break;
+      case "11": mes = 'NOVIEMBRE';break;
+      case "12": mes = 'DICIEMBRE';break;
+    }
+
+    return "["+mes+"]"+".["+anio+"]";
   }
 
 

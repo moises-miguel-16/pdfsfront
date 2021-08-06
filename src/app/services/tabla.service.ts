@@ -22,6 +22,7 @@ export class TablaService {
     formData.append('hasta', fechaFin);
     const url = `http://intranet.colegiocima.edu.pe/v4cima/controlador/load_contabilidad.php`
     return this.http.post(url,{ body: formData,method: 'post' });
+    // return this.http.post(url,{ });
 
   }
 
