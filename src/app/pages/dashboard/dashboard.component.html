@@ -28,12 +28,17 @@
                         <td>{{elemento['descripcion']}}</td>
                         <td>{{elemento['ffecha']}}</td>
                         <td>{{elemento['monto']}}</td>
-                        <button class="btn btn-danger text-center" routerLink="./detalle/{{elemento['id']}}/{{elemento['descripcion']}}">👁</button>
+                        <button class="btn btn-danger text-center" routerLink="./detalle/{{elemento['id']}}/{{elemento['descripcion']}}/{{fechaInicio}}/{{fechaFin}}">👁</button>
                     </tr>
                    
                 </tbody>
             </table>
         </div>
-        <!-- <div class="card-footer bg-transparent border-primary">Footer</div> -->
+        <div class="card-footer bg-transparent border-primary">
+            Desde: <input id="inputFechaInicio" type="date" class="datepicker" data-date-format="mm/dd/yyyy" name="fechaInicio">
+
+            Hasta: <input id="inputFechaFin" type="date" class="datepicker" data-date-format="mm/dd/yyyy" name="fechaFin">
+            <button class="btn btn-primary ml-3" (click)="buscarPorRango()">Buscar</button>
+        </div> 
     </div>
 </div>
