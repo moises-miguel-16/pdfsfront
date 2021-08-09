@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { ModalDetalleComponent } from './../modal-detalle/modal-detalle.component';
 import { TablaService } from './../../../services/tabla.service';
 import { Component, OnInit } from '@angular/core';
@@ -13,8 +14,8 @@ import { token } from "./SEGOEUI-normal"
 })
 export class DetalleComponent implements OnInit {
   public id:any;
-  public fechaInicio:any;
-  public fechaFin:any;
+  // public fechaInicio:any;
+  // public fechaFin:any;
 
 
   public descripcion:any;
@@ -23,17 +24,18 @@ export class DetalleComponent implements OnInit {
   public pages:any[] = [];
   public detallesParciales = [];
 
+  public descargando:any = '';
+  public pageSelected:any;
 
   constructor( route: ActivatedRoute, public tablaService:TablaService,   private modalService: NgbModal,
     ) { 
     this.id = route.snapshot.params.id;
-    this.fechaInicio = route.snapshot.params.fechaInicio;
-    this.fechaFin = route.snapshot.params.fechaFin;
+
     this.descripcion = route.snapshot.params.descripcion;
   }
 
   ngOnInit(): void {
-    this.tablaService.cargarInfoTablaDetallada(this.id,this.fechaInicio,this.fechaFin).subscribe( (data:any) => {
+    this.tablaService.cargarInfoTablaDetallada(this.id).subscribe( (data:any) => {
       this.detalles = data;
       this.numpages  =this.detalles.length/10;
       console.log(this.numpages)
@@ -47,29 +49,79 @@ export class DetalleComponent implements OnInit {
   }
   mostrarParcial( page:number ){
     console.log(page)
+    this.pageSelected = page;
     console.log(page*10 ,page*10-9)
     this.detallesParciales = this.detalles.slice( page*10-9 ,page*10 )
+    console.log(this.detallesParciales)
   }
 
   public async abrirModal(elemento :any ){
     let modalRef;
-    modalRef = this.modalService.open(ModalDetalleComponent, {
-      centered: true,
-      size: 'lg'
-    });
-    modalRef.componentInstance.Elemento = elemento;
+
+    try{
+      modalRef = this.modalService.open(ModalDetalleComponent, {
+      
+        size: 'lg',
+        
+      });
+      modalRef.componentInstance.Elemento = elemento;
+      let res = await modalRef.result;
+      if(res == 'descargo'){
+        Swal.fire('Descarga satisfactoria','El documento se descargó satisfactoriamente','success');
+      }
+
+    }catch(err){
+      console.log('ERROR')
+    }
+    
+
+    
     
   }
   descargar(){
-    this.detalles.forEach( detalle => {
-      this.descargarDetalle(detalle);
-    } )
 
-    // this.descargarDetalle(this.detalles[0]);
-    // this.descargarDetalle(this.detalles[21]);
-    // this.descargarDetalle(this.detalles[2]);
+    Swal.fire({
+      title: '¿Seguro que desea descargar todos los archivos?',
+      text: "Accion irreversible!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#337ab7',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sì, descargar!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.descargando = 'Descargando...';
+        this.descargarDetalle(this.detalles[0]);
+        this.descargarDetalle(this.detalles[1]);
+        this.descargarDetalle(this.detalles[2]);
+        this.descargarDetalle(this.detalles[3]);
+        this.descargarDetalle(this.detalles[4]);
+        this.descargarDetalle(this.detalles[5]);
+        this.descargarDetalle(this.detalles[6]);
+        this.descargarDetalle(this.detalles[7]);
+        this.descargarDetalle(this.detalles[8]);
+        this.descargarDetalle(this.detalles[9]);
+        this.descargarDetalle(this.detalles[10]);
+        this.descargarDetalle(this.detalles[11]);
+        setTimeout(() => {
+          this.descargando = '';
+          
+          Swal.fire('Descarga satisfactoria','Todos los documentos se descargaron satisfactoriamente','success');
+        }, 1000);
+      }
+    })
+    // this.detalles.forEach( detalle => {
+    //   this.descargarDetalle(detalle);
+    // } )
+    
+  }
+  regresar(){
+    history.go(-1)
   }
   descargarDetalle( detalle:any ){
+    
+
     let doc = new jsPDF();
     console.log(detalle);
     doc.setFontSize(10);
@@ -171,6 +223,8 @@ export class DetalleComponent implements OnInit {
     let dni = detalle.login
 
     doc.save(`${dni}_Adelanto${extension}`);
+    
+
   }
   extraerMesAnioCorchete( fecha:any ){
     let arrayfecha = fecha.split('-');
@@ -194,7 +248,7 @@ export class DetalleComponent implements OnInit {
       case "12": mes = 'DICIEMBRE';break;
     }
 
-    return "["+mes+"]"+".["+anio+"]";
+    return mes+"."+anio;
   }
 
 

@@ -1,3 +1,4 @@
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, Input, OnInit } from '@angular/core';
 import { jsPDF } from "jspdf";
 import { token } from "../detalle/SEGOEUI-normal"
@@ -9,10 +10,13 @@ import { token } from "../detalle/SEGOEUI-normal"
 })
 export class ModalDetalleComponent implements OnInit {
   @Input()Elemento:any;
-  constructor() { }
+  public descargando:boolean = false;
+  public apellidoNombre = '';
+
+  constructor( private modalActive:NgbActiveModal ) { }
 
   ngOnInit(): void {
-    console.log(this.Elemento)
+    this.apellidoNombre =  this.Elemento.apellido+" "+this.Elemento.nombre
   }
 
   descargarUnico(){
@@ -24,6 +28,7 @@ export class ModalDetalleComponent implements OnInit {
     // this.descargarDetalle(this.detalles[2]);
   }
   descargarDetalle( detalle:any ){
+    this.descargando = true;
     let doc = new jsPDF();
     console.log(detalle);
     doc.setFontSize(10);
@@ -34,24 +39,24 @@ export class ModalDetalleComponent implements OnInit {
     doc.setFillColor(255, 255, 200);
     doc.rect(15, 11, 73, 10, 'F');
 
-    // doc.setFontSize(13);
-    // doc.text(detalle.planilla,15.8,18);
-    // doc.text(detalle.planilla,15.9,18);
-    // doc.text(detalle.planilla,16,18);
-    // doc.setFontSize(10);
-    // doc.setFillColor(128, 229, 255);
-    // doc.rect(15, 25, 40, 7, 'F');
+    doc.setFontSize(13);
+    doc.text(detalle.planilla,15.8,18);
+    doc.text(detalle.planilla,15.9,18);
+    doc.text(detalle.planilla,16,18);
+    doc.setFontSize(10);
+    doc.setFillColor(128, 229, 255);
+    doc.rect(15, 25, 40, 7, 'F');
 
-    // doc.text('DETALLE',15.8,29.8);
-    // doc.text('DETALLE',15.9,29.9);
+    doc.text('DETALLE',15.8,29.8);
+    doc.text('DETALLE',15.9,29.9);
  
 
-    // doc.addImage('./assets/imgs/barraizquierda.png','PNG',10,10,2,25);
-    // doc.addImage('./assets/imgs/insignia.png','PNG',175,10,25,25);
+    doc.addImage('./assets/imgs/barraizquierda.png','PNG',10,10,2,25);
+    doc.addImage('./assets/imgs/insignia.png','PNG',175,10,25,25);
 
     //TEXTO DE LOS ITEMS
-    for( let i=0;i<detalle.length;i++ ){
-      let infoDetalle = detalle[i];
+    for( let i=0;i<detalle.detalle.length;i++ ){
+      let infoDetalle = detalle.detalle[i];
       
       if(infoDetalle.descripcion.length > 58){
         doc.setFont("SEGOEUI","normal")
@@ -73,58 +78,53 @@ export class ModalDetalleComponent implements OnInit {
       }
       doc.addImage('./assets/imgs/check.png','PNG',14,(51+5*1.5*i),4,4);
     }
-    // //IMPORTE TOTAL
-    // doc.text('IMPORTE TOTAL',135, 60+5*1.5*detalle.length);
-    // doc.text('IMPORTE TOTAL',135.1, 60+5*1.5*detalle.length);
+    //IMPORTE TOTAL
+    doc.text('IMPORTE TOTAL',135, 60+5*1.5*detalle.detalle.length);
+    doc.text('IMPORTE TOTAL',135.1, 60+5*1.5*detalle.detalle.length);
     
-    // doc.text(detalle.montopago,180, 60+5*1.5*detalle.length);
-    // doc.text(detalle.montopago,180.1, 60+5*1.5*detalle.length);
-    // //TEXTO DE LA FECHA
-    // doc.text(this.transformFecha(detalle[0].fechapago),15, 70+5*1.5*detalle.length+10);
-    // doc.text(this.transformFecha(detalle[0].fechapago),15.1, 70+5*1.5*detalle.length+10);
-    // doc.text(this.transformFecha(detalle[0].fechapago),15.2, 70+5*1.5*detalle.length+10);
+    doc.text(detalle.montopago,180, 60+5*1.5*detalle.detalle.length);
+    doc.text(detalle.montopago,180.1, 60+5*1.5*detalle.detalle.length);
+    //TEXTO DE LA FECHA
+    doc.text(this.transformFecha(detalle.detalle[0].fechapago),15, 70+5*1.5*detalle.detalle.length+10);
+    doc.text(this.transformFecha(detalle.detalle[0].fechapago),15.1, 70+5*1.5*detalle.detalle.length+10);
+    doc.text(this.transformFecha(detalle.detalle[0].fechapago),15.2, 70+5*1.5*detalle.detalle.length+10);
 
     //LINEA
-    doc.addImage('./assets/imgs/lineahorizontal.png','PNG',126,70+5*1.5*detalle.length+15,
+    doc.addImage('./assets/imgs/lineahorizontal.png','PNG',126,70+5*1.5*detalle.detalle.length+15,
     75,7);
 
 
-    // if(detalle.apellido.length+detalle.nombre.length > 30){
+    if(detalle.apellido.length+detalle.nombre.length > 30){
 
-    //   doc.text(((detalle.apellido+" "+detalle.nombre).substring(0,30)),136, 70+5*1.5*detalle.length+25)
-    //   doc.text(((detalle.apellido+" "+detalle.nombre).substring(0,30)),136.1, 70+5*1.5*detalle.length+25)
-    //   doc.text(((detalle.apellido+" "+detalle.nombre).substring(0,30)),136.2, 70+5*1.5*detalle.length+25)
+      doc.text(((detalle.apellido+" "+detalle.nombre).substring(0,30)),136, 70+5*1.5*detalle.detalle.length+25)
+      doc.text(((detalle.apellido+" "+detalle.nombre).substring(0,30)),136.1, 70+5*1.5*detalle.detalle.length+25)
+      doc.text(((detalle.apellido+" "+detalle.nombre).substring(0,30)),136.2, 70+5*1.5*detalle.detalle.length+25)
 
-    //   doc.text(((detalle.apellido+" "+detalle.nombre).substring(30,detalle.apellido.length+detalle.nombre.length+1)),136, 70+5*1.5*detalle.length+30)
-    //   doc.text(((detalle.apellido+" "+detalle.nombre).substring(30,detalle.apellido.length+detalle.nombre.length+1)),136.1, 70+5*1.5*detalle.length+30)
-    //   doc.text(((detalle.apellido+" "+detalle.nombre).substring(30,detalle.apellido.length+detalle.nombre.length+1)),136.2, 70+5*1.5*detalle.length+30)
+      doc.text(((detalle.apellido+" "+detalle.nombre).substring(30,detalle.apellido.length+detalle.nombre.length+1)),136, 70+5*1.5*detalle.detalle.length+30)
+      doc.text(((detalle.apellido+" "+detalle.nombre).substring(30,detalle.apellido.length+detalle.nombre.length+1)),136.1, 70+5*1.5*detalle.detalle.length+30)
+      doc.text(((detalle.apellido+" "+detalle.nombre).substring(30,detalle.apellido.length+detalle.nombre.length+1)),136.2, 70+5*1.5*detalle.detalle.length+30)
     
-    // }else{
-    //   doc.text((detalle.apellido+" "+detalle.nombre),136, 70+5*1.5*detalle.length+25)
-    // doc.text((detalle.apellido+" "+detalle.nombre),136.1, 70+5*1.5*detalle.length+25)
-    // doc.text((detalle.apellido+" "+detalle.nombre),136.2, 70+5*1.5*detalle.length+25)
-    // }
-
-
-    
-
-
-
-    
-
+    }else{
+      doc.text((detalle.apellido+" "+detalle.nombre),136, 70+5*1.5*detalle.detalle.length+25)
+    doc.text((detalle.apellido+" "+detalle.nombre),136.1, 70+5*1.5*detalle.detalle.length+25)
+    doc.text((detalle.apellido+" "+detalle.nombre),136.2, 70+5*1.5*detalle.detalle.length+25)
+    }
 
     //CIMA chiquito
-    doc.addImage('./assets/imgs/cimachiquito.png','PNG',10,70+5*1.5*detalle.length+35,22,10);
+    doc.addImage('./assets/imgs/cimachiquito.png','PNG',10,70+5*1.5*detalle.detalle.length+35,22,10);
 
     //DNI_Adelanto[Mes].[Año].pdf
 
     doc.addImage('./assets/imgs/footer.png','PNG',0,247,210,50);
 
-    // let extension = this.extraerMesAnioCorchete(detalle[0].fechapago)+'.pdf'
+    let extension = this.extraerMesAnioCorchete(detalle.detalle[0].fechapago)+'.pdf'
     // let apellidoN = detalle.apellido.split(' ')[0]+detalle.apellido.split(' ')[1]+detalle.nombre.substring(0,1);
-    // let dni = detalle.login
+    let dni = detalle.login
 
-    doc.save(`a.pdf`);
+    doc.save(`${dni}_Adelanto${extension}`);
+    this.descargando = false;
+    this.modalActive.close('descargo');
+    
   }
   extraerMesAnioCorchete( fecha:any ){
     let arrayfecha = fecha.split('-');
@@ -148,7 +148,7 @@ export class ModalDetalleComponent implements OnInit {
       case "12": mes = 'DICIEMBRE';break;
     }
 
-    return "["+mes+"]"+".["+anio+"]";
+    return mes+"."+anio;
   }
 
 

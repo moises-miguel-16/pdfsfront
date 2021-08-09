@@ -8,11 +8,11 @@
                 </div>
                 <div class="col-3">
 
-                   <b>Desde</b>  <input id="inputFechaInicio" type="date" class="datepicker form-control" data-date-format="mm/dd/yyyy" name="fechaInicio">
+                   <b>Desde</b>  <input id="inputFechaInicio" type="date" class="datepicker form-control" data-date-format="yyyy-mm-dd" name="fechaInicio">
                 </div>
                 <div class="col-3">
 
-                    <b>Hasta</b> <input id="inputFechaFin" type="date" class="datepicker form-control" data-date-format="mm/dd/yyyy" name="fechaFin">
+                    <b>Hasta</b> <input id="inputFechaFin" type="date" class="datepicker form-control" data-date-format="yyyy-mm-dd" name="fechaFin">
                 </div>
 
                 <div class="col-1 d-flex mt-auto">
@@ -40,7 +40,7 @@
                         <td class="text-right">{{elemento['monto']}}</td>
                         <td class="text-center">
 
-                            <button class="btn fondoazulcima" routerLink="./detalle/{{elemento['id']}}/{{elemento['descripcion']}}/{{fechaInicio}}/{{fechaFin}}">👁️</button>
+                            <button class="btn fondoazulcima" style="cursor: pointer;" routerLink="./detalle/{{elemento['id']}}/{{elemento['descripcion']}}">👁</button>
                         </td>
                     </tr>
                    

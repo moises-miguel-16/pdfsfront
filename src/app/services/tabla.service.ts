@@ -27,10 +27,9 @@ export class TablaService {
 
   }
 
-  cargarInfoTablaDetallada( id:any,fechaInicio:any,fechaFin:any ){
+  cargarInfoTablaDetallada( id:any ){
     // const url = `${ base_url }/entrada/${id}/${fechaInicio}/${fechaFin}`;
-    const url = `https://intranet.colegiocima.edu.pe:8443/api/cimapersonal/personal/remuneracion/${id}?caso=6
-    &desde=${fechaInicio}&hasta=${fechaFin}`;
+    const url = `https://intranet.colegiocima.edu.pe:8443/api/cimapersonal/personal/remuneracion/${id}`;
     return this.http.get(url);
 
   }

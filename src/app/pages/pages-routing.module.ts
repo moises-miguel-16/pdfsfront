@@ -7,7 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const childRoutes: Routes = [
   { path: '', component: DashboardComponent},
-  { path: 'detalle/:id/:descripcion/:fechaInicio/:fechaFin', component: DetalleComponent }
+  { path: 'detalle/:id/:descripcion', component: DetalleComponent }
 ];
 
 @NgModule({
