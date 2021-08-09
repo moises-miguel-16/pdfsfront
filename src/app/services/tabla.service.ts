@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 
-const base_url = environment.base_url;
+// const base_url = environment.base_url;
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +16,14 @@ export class TablaService {
 
   cargarInfoTabla(fechaInicio:any,fechaFin:any){
     // const url = `${ base_url }/entrada/${fechaInicio}/${fechaFin}`;
+    console.log(fechaFin, fechaInicio);
     let formData = new FormData();
     formData.append('caso', '6');
     formData.append('desde', fechaInicio);
     formData.append('hasta', fechaFin);
-    const url = `http://intranet.colegiocima.edu.pe/v4cima/controlador/load_contabilidad.php`
-    return this.http.post(url,{ body: formData,method: 'post' });
-    // return this.http.post(url,{ });
+    const url = `https://intranet.colegiocima.edu.pe/v4cima/controlador/load_contabilidad.php`
+    return this.http.post(url, formData);
+    // return this.http.post(url,{ }); caso=6&desde=${fechaInicio}&hasta=${fechaFin}
 
   }
 

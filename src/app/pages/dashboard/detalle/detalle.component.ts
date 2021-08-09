@@ -26,17 +26,12 @@ export class DetalleComponent implements OnInit {
     this.id = route.snapshot.params.id;
     this.fechaInicio = route.snapshot.params.fechaInicio;
     this.fechaFin = route.snapshot.params.fechaFin;
-
-
-
     this.descripcion = route.snapshot.params.descripcion;
-
   }
 
   ngOnInit(): void {
     this.tablaService.cargarInfoTablaDetallada(this.id,this.fechaInicio,this.fechaFin).subscribe( (data:any) => {
-      this.detalles = data.data;
-      
+      this.detalles = data;
     } );
   }
 
@@ -47,15 +42,6 @@ export class DetalleComponent implements OnInit {
       // size: 'xl'
     });
     modalRef.componentInstance.Elemento = elemento;
-
-    try{
-      const res = await modalRef.result;
-      if(res == 'ok'){
-        console.log('ALL IS OK')
-      }
-    }catch(err){
-      console.log('ventana cerrada')
-    };
     
   }
   descargar(){
@@ -198,8 +184,7 @@ export class DetalleComponent implements OnInit {
 
   transformFecha( fecha:any ):any{
     let arrayfecha = fecha.split('-');
-    console.log(arrayfecha);
-    let anio = arrayfecha[0];
+       let anio = arrayfecha[0];
     let mes = arrayfecha[1];
     let dia = arrayfecha[2];
 

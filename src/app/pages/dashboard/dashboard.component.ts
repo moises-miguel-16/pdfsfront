@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.tablaService.cargarInfoTabla(this.fechaInicio,this.fechaFin).subscribe( (res:any) => {
-      this.infoTabla = res.data;
+      this.infoTabla = res;
       console.log(this.infoTabla)
     })
   }
@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
     this.fechaFin = (<HTMLInputElement>document.getElementById('inputFechaFin')).value;
     if(this.fechaInicio && this.fechaFin){
       this.tablaService.cargarInfoTabla(this.fechaInicio,this.fechaFin).subscribe( (res:any) => {
-        this.infoTabla = res.data;
+        this.infoTabla = res;
         console.log(this.infoTabla)
       })
     }else{
