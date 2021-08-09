@@ -1,19 +1,29 @@
 <div class="container mt-5">
     <div class="card border-dark mb-3 w-100">
-        <div class="card-header bg-dark text-light ">LISTA REPORTE</div>
+        <div class="card-header fondoazulcima ">LISTA REPORTE</div>
         <div class="card-body">
-            <!-- <div class="row w-100">
-                <div class="col-8">
-                  
-                </div>
-                <div class="col-4 text-right">
-                    <button class="btn btn-success text-right">DESCARGAR</button>
+            <div class="row w-100">
+                <div class="col-5">
 
                 </div>
-            </div> -->
+                <div class="col-3">
 
-            <table class="table table-bordered">
-                <thead class="bg-secondary text-dark">
+                   <b>Desde</b>  <input id="inputFechaInicio" type="date" class="datepicker form-control" data-date-format="mm/dd/yyyy" name="fechaInicio">
+                </div>
+                <div class="col-3">
+
+                    <b>Hasta</b> <input id="inputFechaFin" type="date" class="datepicker form-control" data-date-format="mm/dd/yyyy" name="fechaFin">
+                </div>
+
+                <div class="col-1 d-flex mt-auto">
+
+                    <button class="btn fondoazulcima ml-2" (click)="buscarPorRango()">Buscar</button>
+                </div>
+            </div> 
+       
+
+            <table class="table table-bordered mt-3">
+                <thead class="fondoazulcima">
                     <tr>
                         <th scope="col">COD</th>
                         <th scope="col">DESCRIPCIÓN</th>
@@ -23,22 +33,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let elemento of infoTabla" class="text-center">
-                        <th scope="row">{{elemento['id']}}</th>
+                    <tr *ngFor="let elemento of infoTabla">
+                        <th scope="row" class="text-center" >{{elemento['id']}}</th>
                         <td>{{elemento['descripcion']}}</td>
-                        <td>{{elemento['ffecha']}}</td>
-                        <td>{{elemento['monto']}}</td>
-                        <button class="btn btn-danger text-center" routerLink="./detalle/{{elemento['id']}}/{{elemento['descripcion']}}/{{fechaInicio}}/{{fechaFin}}">👁</button>
+                        <td class="text-center">{{elemento['ffecha']}}</td>
+                        <td class="text-right">{{elemento['monto']}}</td>
+                        <td class="text-center">
+
+                            <button class="btn fondoazulcima" routerLink="./detalle/{{elemento['id']}}/{{elemento['descripcion']}}/{{fechaInicio}}/{{fechaFin}}">👁️</button>
+                        </td>
                     </tr>
                    
                 </tbody>
             </table>
         </div>
-        <div class="card-footer bg-transparent border-primary">
-            Desde: <input id="inputFechaInicio" type="date" class="datepicker" data-date-format="mm/dd/yyyy" name="fechaInicio">
-
-            Hasta: <input id="inputFechaFin" type="date" class="datepicker" data-date-format="mm/dd/yyyy" name="fechaFin">
-            <button class="btn btn-primary ml-3" (click)="buscarPorRango()">Buscar</button>
-        </div> 
+        
     </div>
 </div>

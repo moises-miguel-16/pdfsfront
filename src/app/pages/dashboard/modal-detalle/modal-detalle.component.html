@@ -1,12 +1,14 @@
 <div class="container p-2">
     <div class="card">
+      <button class="btn botonverdecima" style="cursor:pointer" (click)="descargarUnico()">DESCARGAR</button>
         <table class="table table-bordered">
-            <thead>
+            <thead class="fondoazulcima">
               <tr>
                 <th scope="col">DESCRIPCION</th>
                 <th scope="col">DESCUENTO</th>
                 <th scope="col">FECHA</th>
                 <th scope="col">TIPO</th>
+               
               </tr>
             </thead>
             <tbody>
@@ -15,6 +17,7 @@
                 <td>{{elemento.descuento}}</td>
                 <td>{{elemento.fechapago}}</td>
                 <td>{{elemento.tipo}}</td>
+      
               </tr>
               
             </tbody>

@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+.fondoazulcima{
+    background-color: #337ab7;
+    color: white;
+}
+
+.fondorojocima{
+    background-color: #d9534f;
+    color: white;
+}
+
+.botonverdecima{
+    background-color: #5cb85c;
+    color: white;
+}
+body{
+    background-image: url('https://intranet.colegiocima.edu.pe/v4cima/vista/img/fondo.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+ 
+}
+
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}

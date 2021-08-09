@@ -19,6 +19,9 @@ export class DetalleComponent implements OnInit {
 
   public descripcion:any;
   public detalles= [];
+  public numpages = 0;
+  public pages:any[] = [];
+  public detallesParciales = [];
 
 
   constructor( route: ActivatedRoute, public tablaService:TablaService,   private modalService: NgbModal,
@@ -32,14 +35,27 @@ export class DetalleComponent implements OnInit {
   ngOnInit(): void {
     this.tablaService.cargarInfoTablaDetallada(this.id,this.fechaInicio,this.fechaFin).subscribe( (data:any) => {
       this.detalles = data;
+      this.numpages  =this.detalles.length/10;
+      console.log(this.numpages)
+      for (let index = 0; index < this.numpages; index++) {
+        this.pages[index] = index+1;
+        
+      }
+      this.mostrarParcial( 1 );
+      
     } );
+  }
+  mostrarParcial( page:number ){
+    console.log(page)
+    console.log(page*10 ,page*10-9)
+    this.detallesParciales = this.detalles.slice( page*10-9 ,page*10 )
   }
 
   public async abrirModal(elemento :any ){
     let modalRef;
     modalRef = this.modalService.open(ModalDetalleComponent, {
       centered: true,
-      // size: 'xl'
+      size: 'lg'
     });
     modalRef.componentInstance.Elemento = elemento;
     
