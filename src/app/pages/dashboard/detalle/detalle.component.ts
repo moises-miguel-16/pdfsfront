@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { jsPDF } from "jspdf";
 import { token } from "./SEGOEUI-normal"
 import { of, range, asyncScheduler } from 'rxjs';
+import { delay, timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-detalle',
@@ -38,8 +39,9 @@ export class DetalleComponent implements OnInit {
   ngOnInit(): void {
     this.tablaService.cargarInfoTablaDetallada(this.id).subscribe((data: any) => {
       this.detalles = data;
+      console.log(data)
       this.numpages = this.detalles.length / 10;
-      console.log(this.numpages)
+      // console.log(this.numpages)
       for (let index = 0; index < this.numpages; index++) {
         this.pages[index] = index + 1;
 
@@ -49,11 +51,11 @@ export class DetalleComponent implements OnInit {
     });
   }
   mostrarParcial(page: number) {
-    console.log(page)
+    // console.log(page)
     this.pageSelected = page;
-    console.log(page * 10, page * 10 - 9)
-    this.detallesParciales = this.detalles.slice(page * 10 - 9, page * 10)
-    console.log(this.detallesParciales)
+    // console.log(page * 10, page * 10 - 9)
+    this.detallesParciales = this.detalles.slice(page * 10 - 10, page * 10)
+    // console.log(this.detallesParciales)
   }
 
   public async abrirModal(elemento: any) {
@@ -95,19 +97,43 @@ export class DetalleComponent implements OnInit {
       confirmButtonText: 'Sì, descargar!',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
+      let contador = 0;
       if (result.isConfirmed) {
-        // this.descargando = 'Descargando...';
-        const src$ = range(0, this.detalles.length, asyncScheduler);
-        src$.subscribe((contador)=>{
-    
-            this.descargando = 'Descargando '+(contador+1)+' de '+this.detalles.length +'.....'
-            this.descargarDetalle(this.detalles[contador]);
-            if(contador == this.detalles.length-1){
-              Swal.fire('Enhorabuena!','Descargas completadas','success');
-              this.descargando = ''
-            }
+        var interval = setInterval(()=>{
+          contador++;
+          this.descargando = 'Descargando ' + (contador) + ' de ' + this.detalles.length + '.....'
+          this.descargarDetalle(this.detalles[contador-1]);
+          if(contador === this.detalles.length ){
+            clearInterval(interval)
+            Swal.fire('Enhorabuena!', 'Descargas completadas', 'success');
 
-        });
+          }
+        }
+        ,300)
+        // this.descargando = 'Descargando...';
+        // asyncScheduler.schedule(()=>{
+
+        // },200)
+        // const src$ = range(0, this.detalles.length, asyncScheduler);
+        // src$
+        //   .pipe(
+        //     timeout(500)
+        //   )
+        //   .subscribe((contador) => {
+
+
+        //     this.descargando = 'Descargando ' + (contador + 1) + ' de ' + this.detalles.length + '.....'
+        //     this.descargarDetalle(this.detalles[contador]);
+
+
+        //     if (contador == this.detalles.length - 1) {
+        //       Swal.fire('Enhorabuena!', 'Descargas completadas', 'success');
+        //       // this.descargando = ''
+        //     }
+
+
+
+        //   })
       }
     })
 
@@ -117,13 +143,12 @@ export class DetalleComponent implements OnInit {
   }
   descargarDetalle(detalle: any) {
 
-
     let doc = new jsPDF();
-    console.log(detalle);
+    // console.log(detalle);
     doc.setFontSize(10);
     doc.addFileToVFS('SEGOEUI-normal.ttf', token)
     doc.addFont('SEGOEUI-normal.ttf', 'SEGOEUI', 'normal');
-    console.log(doc.getFontList());
+    // console.log(doc.getFontList());
 
     doc.setFillColor(255, 255, 200);
     doc.rect(15, 11, 73, 10, 'F');
@@ -218,13 +243,15 @@ export class DetalleComponent implements OnInit {
     // let apellidoN = detalle.apellido.split(' ')[0]+detalle.apellido.split(' ')[1]+detalle.nombre.substring(0,1);
     let dni = detalle.login
 
+
     doc.save(`${dni}_Adelanto${extension}`);
+
 
 
   }
   extraerMesAnioCorchete(fecha: any) {
     let arrayfecha = fecha.split('-');
-    console.log(arrayfecha);
+    // console.log(arrayfecha);
     let anio = arrayfecha[0];
     let mes = arrayfecha[1];
     let dia = arrayfecha[2];
