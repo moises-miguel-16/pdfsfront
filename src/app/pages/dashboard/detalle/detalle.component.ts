@@ -106,7 +106,7 @@ export class DetalleComponent implements OnInit {
           if(contador === this.detalles.length ){
             clearInterval(interval)
             Swal.fire('Enhorabuena!', 'Descargas completadas', 'success');
-
+            this.descargando = ''
           }
         }
         ,300)
