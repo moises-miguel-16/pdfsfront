@@ -105,7 +105,7 @@ export class DetalleComponent implements OnInit {
           this.descargarDetalle(this.detalles[contador-1]);
           if(contador === this.detalles.length ){
             clearInterval(interval)
-            Swal.fire('Enhorabuena!', 'Descargas completadas', 'success');
+            Swal.fire('Descarga satisfactoria', 'Los documentos se descargaron satisfactoriamente', 'success');
             this.descargando = ''
           }
         }
