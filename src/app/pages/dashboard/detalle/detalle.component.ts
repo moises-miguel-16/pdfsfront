@@ -92,23 +92,56 @@ export class DetalleComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.descargando = 'Descargando...';
-        this.descargarDetalle(this.detalles[0]);
-        this.descargarDetalle(this.detalles[1]);
-        this.descargarDetalle(this.detalles[2]);
-        this.descargarDetalle(this.detalles[3]);
-        this.descargarDetalle(this.detalles[4]);
-        this.descargarDetalle(this.detalles[5]);
-        this.descargarDetalle(this.detalles[6]);
-        this.descargarDetalle(this.detalles[7]);
-        this.descargarDetalle(this.detalles[8]);
-        this.descargarDetalle(this.detalles[9]);
-        this.descargarDetalle(this.detalles[10]);
-        this.descargarDetalle(this.detalles[11]);
-        setTimeout(() => {
-          this.descargando = '';
-          
-          Swal.fire('Descarga satisfactoria','Todos los documentos se descargaron satisfactoriamente','success');
+  let contador = 0;
+        setInterval(() => {
+          contador ++;
+                
+          if(contador ==  ( this.detalles.length  ) ){
+            clearInterval();
+          }else{
+            this.descargarDetalle(this.detalles[contador]);    
+          }
+
         }, 1000);
+
+      
+
+
+          // this.detalles.forEach( detalle => {
+          //   let a = 0;
+          // if(a = 0){
+            
+          //   this.descargarDetalle(detalle);    
+          // }  else{
+            
+          // }  
+ 
+        
+        
+
+
+
+
+
+
+
+        // this.descargarDetalle(this.detalles[0]);
+        // this.descargarDetalle(this.detalles[1]);
+        // this.descargarDetalle(this.detalles[2]);
+        // this.descargarDetalle(this.detalles[3]);
+        // this.descargarDetalle(this.detalles[4]);
+        // this.descargarDetalle(this.detalles[5]);
+        // this.descargarDetalle(this.detalles[6]);
+        // this.descargarDetalle(this.detalles[7]);
+        // this.descargarDetalle(this.detalles[8]);
+        // this.descargarDetalle(this.detalles[9]);
+        // this.descargarDetalle(this.detalles[10]);
+        // this.descargarDetalle(this.detalles[11]);
+        // setTimeout(() => {
+        //   this.descargando = '';
+          
+        //   Swal.fire('Descarga satisfactoria','Todos los documentos se descargaron satisfactoriamente','success');
+        // }, 1000);
       }
     })
     // this.detalles.forEach( detalle => {
@@ -233,20 +266,20 @@ export class DetalleComponent implements OnInit {
     let mes = arrayfecha[1];
     let dia = arrayfecha[2];
 
-    switch(mes){
-      case "01": mes = 'ENERO';break;
-      case "02": mes = 'FEBRERO';break;
-      case "03": mes = 'MARZO';break;
-      case "04": mes = 'ABRIL';break;
-      case "05": mes = 'MAYO';break;
-      case "06": mes = 'JUNIO';break;
-      case "07": mes = 'JULIO';break;
-      case "08": mes = 'AGOSTO';break;
-      case "09": mes = 'SETIEMBRE';break;
-      case "10": mes = 'OCTUBRE';break;
-      case "11": mes = 'NOVIEMBRE';break;
-      case "12": mes = 'DICIEMBRE';break;
-    }
+    // switch(mes){
+    //   case "01": mes = 'ENERO';break;
+    //   case "02": mes = 'FEBRERO';break;
+    //   case "03": mes = 'MARZO';break;
+    //   case "04": mes = 'ABRIL';break;
+    //   case "05": mes = 'MAYO';break;
+    //   case "06": mes = 'JUNIO';break;
+    //   case "07": mes = 'JULIO';break;
+    //   case "08": mes = 'AGOSTO';break;
+    //   case "09": mes = 'SETIEMBRE';break;
+    //   case "10": mes = 'OCTUBRE';break;
+    //   case "11": mes = 'NOVIEMBRE';break;
+    //   case "12": mes = 'DICIEMBRE';break;
+    // }
 
     return mes+"."+anio;
   }
