@@ -1,7 +1,7 @@
 import { TablaService } from './../../services/tabla.service';
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
-
+import { tap } from 'rxjs/operators'
 
 
 @Component({
@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
 
   fechaInicio = '';
   fechaFin = '';
-
+  cargando = false;
   fechaFin2Day = new Date().getUTCDate().toString();
   fechaFin2Month = new Date().getUTCMonth().toString();
   fechaFin2Year = new Date().getUTCFullYear().toString();
@@ -70,16 +70,23 @@ export class DashboardComponent implements OnInit {
   }
 
   buscarPorRango(){
-
+    
     this.fechaInicio = (<HTMLInputElement>document.getElementById('inputFechaInicio')).value;
     this.fechaFin = (<HTMLInputElement>document.getElementById('inputFechaFin')).value;
 
     console.log(this.fechaInicio,this.fechaFin)
 
     if(this.fechaInicio.length>0 && this.fechaFin.length>0){
-      this.tablaService.cargarInfoTabla(this.fechaInicio,this.fechaFin).subscribe( (res:any) => {
+      this.tablaService.cargarInfoTabla(this.fechaInicio,this.fechaFin)
+      .pipe(
+        tap( _ => {
+          this.cargando = true;
+        } )
+      )
+      .subscribe( (res:any) => {
         this.infoTabla = res;
         console.log(this.infoTabla)
+        this.cargando = false;
       })
     }else{
       Swal.fire('Oops','Ingrese correctamente las fechas','error')

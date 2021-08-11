@@ -1,35 +1,48 @@
-<div class="">
+<div>
     <div>
         <div class="modal-header" style="background-color:#337ab7 ; color: white;">
-          {{apellidoNombre}}
-        </div>
-        <div class="modal-body">
+          <h5 class="modal-title">
+            <b>{{Descripcion}} - {{apellidoNombre}}</b>
 
+          </h5>
+          <a class="close" style="background-color:#337ab7 ;"
+          data-dismiss="modal" aria-label="Close" class="text-light">
+            <span style="cursor: pointer;" aria-hidden="true"  (click)="close()"><h2>&times;</h2></span>
+        </a>
+        </div>
+        <div class="modal-body" style="font-size: 15px;">
           <table class="table table-bordered table-condensed" >
-              <thead>
+              <thead class="fondoazulcima">
                 <tr>
-                  <th scope="col">DESCRIPCION</th>
-                  <th scope="col">DESCUENTO</th>
-                  <th scope="col">FECHA</th>
+                  <th scope="col" class="fecha">FECHA</th>
                   <th scope="col">TIPO</th>
+                  <th scope="col" class="texto">DESCRIPCION</th>
+                  <th scope="col">DESCUENTO</th>
                  
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let elemento of Elemento.detalle">
-                  <th scope="row">{{elemento.descripcion}}</th>
-                  <td class="text-right" >{{elemento.descuento.toFixed(2)}}</td>
                   <td>{{elemento.fechapago}}</td>
                   <td>{{elemento.tipo}}</td>
+                  <th scope="row">{{elemento.descripcion}}</th>
+                  <td class="text-right" >{{elemento.descuento.toFixed(2)}}</td>
         
                 </tr>
                 
+
               </tbody>
+              
             </table>
+            <div class="text-right ">
+
+              <h5><b>Total: {{MontoPago}}</b> </h5>
+            </div>
+
         </div>
         <div class="modal-footer">
 
-          <button class="btn fondoazulcima" style="cursor:pointer" (click)="descargarUnico()">DESCARGAR</button>
+          <button class="btn fondoazulcima" style="cursor:pointer" (click)="descargarUnico()">Descargar</button>
 
         </div>
     </div>

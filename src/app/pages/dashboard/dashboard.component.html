@@ -1,6 +1,6 @@
 <div class="container mt-5">
     <div class="card border-dark mb-3 w-100">
-        <div class="card-header fondoazulcima ">LISTA REPORTE</div>
+        <div class="card-header fondoazulcima "><h5><b>LISTA REPORTE</b></h5></div>
         <div class="card-body">
             <div class="row w-100">
                 <div class="col-5">
@@ -21,8 +21,8 @@
                 </div>
             </div> 
        
-
-            <table class="table table-bordered mt-3">
+            <!-- {{cargando}} -->
+            <table class="table table-bordered table-striped mt-3">
                 <thead class="fondoazulcima">
                     <tr>
                         <th scope="col">COD</th>
@@ -32,19 +32,33 @@
                         <th scope="col">ACCiÓN</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr *ngFor="let elemento of infoTabla">
-                        <th scope="row" class="text-center" >{{elemento['id']}}</th>
-                        <td>{{elemento['descripcion']}}</td>
-                        <td class="text-center">{{elemento['ffecha']}}</td>
-                        <td class="text-right">{{elemento['monto']}}</td>
-                        <td class="text-center">
+                <tbody *ngIf="infoTabla &&infoTabla.length>0;else nocontent">
+                    <!-- <div *ngIf="infoTabla.length>0;else nocontent"> -->
 
-                            <button class="btn fondoazulcima" style="cursor: pointer;" routerLink="./detalle/{{elemento['id']}}/{{elemento['descripcion']}}">👁</button>
-                        </td>
-                    </tr>
+                        <tr *ngFor="let elemento of infoTabla">
+                            <th scope="row" class="text-center" >{{elemento['id']}}</th>
+                            <td>{{elemento['descripcion']}}</td>
+                            <td class="text-center">{{elemento['ffecha']}}</td>
+                            <td class="text-right">{{elemento['monto']}}</td>
+                            <td class="text-center">
+    
+                                <button class="btn fondoazulcima" style="cursor: pointer;" routerLink="./detalle/{{elemento['id']}}/{{elemento['descripcion']}}">👁</button>
+                            </td>
+                        </tr>
+                    <!-- </div> -->
                    
                 </tbody>
+            
+                <ng-template #nocontent>
+                    <tbody>
+
+                        <tr  class="text-danger text-center">
+                            <td colspan="5">
+                                <h4>No se ha registrado planilla en este rango de fechas</h4>
+                            </td>
+                        </tr>
+                    </tbody>
+                </ng-template>
             </table>
         </div>
         

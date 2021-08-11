@@ -10,13 +10,23 @@ import { token } from "../detalle/SEGOEUI-normal"
 })
 export class ModalDetalleComponent implements OnInit {
   @Input()Elemento:any;
+  @Input()Descripcion:any;
+  @Input()MontoPago:any;
+
+
   public descargando:boolean = false;
   public apellidoNombre = '';
 
   constructor( private modalActive:NgbActiveModal ) { }
-
+  close(){
+    this.modalActive.close('OK')
+  }
   ngOnInit(): void {
     this.apellidoNombre =  this.Elemento.apellido+" "+this.Elemento.nombre
+
+
+    let coords = document.getElementsByClassName('modal-content')[0].getBoundingClientRect();
+
   }
 
   descargarUnico(){

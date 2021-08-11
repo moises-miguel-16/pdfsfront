@@ -1,20 +1,20 @@
 <div class="container mt-5">
   <div class="card border-primary mb-3 w-100">
-    <div class="card-header fondoazulcima text-light ">LISTA REPORTE - {{descripcion}}</div>
+    <div class="card-header fondoazulcima text-light "><h5><b>{{descripcion}}</b></h5></div>
     <div class="card-body">
       <div class="row w-100 mb-3">
         <div class="col-8">
-          <h2><b>{{descargando}}</b></h2>
+          <h3><b>{{descargando}}</b></h3>
         </div>
         <div class="col-4 text-right">
           <!-- <p class="mr-1" *ngIf="descargando">Descargando...</p> -->
-          <button class="btn fondoazulcima text-right ml-1" (click)="regresar()">REGRESAR</button>
-          <button class="btn fondoazulcima text-right ml-1" (click)="descargar()">DESCARGAR</button>
+          <button class="btn fondoazulcima text-right ml-1" (click)="regresar()">Regresar</button>
+          <button class="btn fondoazulcima text-right ml-1" (click)="descargar()">Descargar</button>
 
         </div>
       </div>
-      <table class="table table-bordered" *ngIf="detallesParciales.length>0; else Nocontent">
-        <thead>
+      <table class="table table-bordered table-striped" >
+        <thead class="fondoazulcima">
           <tr>
             <!-- <th scope="col">#</th> -->
             <th scope="col">APELLIDO Y NOMBRE</th>
@@ -23,7 +23,7 @@
             <th scope="col">ACCION</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="detallesParciales.length>0; else NoContent">
 
             <tr *ngFor="let elemento of detallesParciales">
               <!-- <th scope="row">1</th> -->
@@ -39,6 +39,16 @@
 
 
         </tbody>
+        <ng-template #NoContent>
+          <tbody>
+
+              <tr  class="text-danger text-center">
+                  <td colspan="5">
+                      <h4>No se ha registrado descuentos para esta planilla</h4>
+                  </td>
+              </tr>
+          </tbody>
+        </ng-template>
        
       </table>
       <div class="d-flex justify-content-between">
@@ -67,9 +77,9 @@
           </nav>
         </div>
       </div>
-      <ng-template #Nocontent class="w-100">
+      <!-- <ng-template #Nocontent class="w-100">
         <p class="w-100 text-danger">No hay contenido</p>
-      </ng-template>
+      </ng-template> -->
     </div>
   </div>
 </div>
