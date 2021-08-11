@@ -97,12 +97,12 @@ export class DetalleComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         // this.descargando = 'Descargando...';
-        const src$ = range(1, 20, asyncScheduler);
+        const src$ = range(0, this.detalles.length, asyncScheduler);
         src$.subscribe((contador)=>{
     
-            this.descargando = 'Descargando '+(contador)+' de 20.....'
+            this.descargando = 'Descargando '+(contador+1)+' de '+this.detalles.length +'.....'
             this.descargarDetalle(this.detalles[contador]);
-            if(contador == 20){
+            if(contador == this.detalles.length-1){
               Swal.fire('Enhorabuena!','Descargas completadas','success');
               this.descargando = ''
             }
