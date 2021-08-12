@@ -19,15 +19,17 @@ export class DetalleComponent implements OnInit {
   // public fechaInicio:any;
   // public fechaFin:any;
 
-
+  public mostrarPaginacion = true;
   public descripcion: any;
   public detalles = [];
   public numpages = 0;
   public pages: any[] = [];
-  public detallesParciales = [];
-
+  public detallesParciales:any[] = [];
+  public detallesPorBusqueda:any[] = [];
+  public busqueda = '';
   public descargando: any = '';
   public pageSelected: any;
+  public detallesAux:any;
 
   constructor(route: ActivatedRoute, public tablaService: TablaService, private modalService: NgbModal,
   ) {
@@ -37,11 +39,15 @@ export class DetalleComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+      this.inicioTodo()
+  }
+
+  inicioTodo(){
     this.tablaService.cargarInfoTablaDetallada(this.id).subscribe((data: any) => {
       this.detalles = data;
-      console.log(data)
+      this.detallesAux = this.detalles
       this.numpages = this.detalles.length / 10;
-      // console.log(this.numpages)
       for (let index = 0; index < this.numpages; index++) {
         this.pages[index] = index + 1;
 
@@ -50,16 +56,70 @@ export class DetalleComponent implements OnInit {
 
     });
   }
-  mostrarParcial(page: number) {
-    // console.log(page)
-    this.pageSelected = page;
-    // console.log(page * 10, page * 10 - 9)
-    this.detallesParciales = this.detalles.slice(page * 10 - 10, page * 10)
-    // console.log(this.detallesParciales)
+
+  buscar(palabra: string) {
+
+    this.mostrarPaginacion = false;
+    this.detallesPorBusqueda = [];
+
+    if (palabra.length > 0) {
+      this.detalles.forEach((pal: any) => {
+        let union1 = pal.nombre.toLowerCase()+pal.apellido.toLowerCase()+pal.cargo.toLowerCase()
+        let union2 = pal.nombre.toLowerCase()+pal.cargo.toLowerCase()+pal.apellido.toLowerCase()
+        let union3 = pal.cargo.toLowerCase()+pal.nombre.toLowerCase()+pal.apellido.toLowerCase()
+        let union4 = pal.cargo.toLowerCase()+pal.apellido.toLowerCase()+pal.nombre.toLowerCase()
+        let union5 = pal.apellido.toLowerCase()+pal.cargo.toLowerCase()+pal.nombre.toLowerCase()
+        let union6 = pal.apellido.toLowerCase()+pal.nombre.toLowerCase()+pal.cargo.toLowerCase()
+
+      
+
+        if (pal.nombre.toLowerCase().includes(palabra.toLowerCase()) ||
+         pal.apellido.toLowerCase().includes(palabra.toLowerCase()) ||
+         pal.cargo.toLowerCase().includes(palabra.toLowerCase())  ||
+         union1.includes(palabra.toLowerCase().replace(/\s+/g, '')) ||
+         union2.includes(palabra.toLowerCase().replace(/\s+/g, '')) ||
+         union3.includes(palabra.toLowerCase().replace(/\s+/g, '')) ||
+         union4.includes(palabra.toLowerCase().replace(/\s+/g, '')) ||
+         union5.includes(palabra.toLowerCase().replace(/\s+/g, '')) ||
+         union6.includes(palabra.toLowerCase().replace(/\s+/g, '')) 
+        
+         ) {
+           console.log(union1)
+          this.detallesPorBusqueda.push(pal)
+        }
+      })
+      this.detallesParciales = this.detallesPorBusqueda;
+
+      this.numpages = this.detallesParciales.length / 10;
+      if(this.numpages<1) this.numpages = 1
+      this.pages = []
+      for (let index = 0; index < this.numpages; index++) {
+        this.pages[index] = index + 1;
+
+      }
+      this.mostrarParcialBusqueda(1);
+
+    }else{
+      this.mostrarPaginacion = true
+      this.inicioTodo();
+    }
+
+    
   }
 
+  mostrarParcialBusqueda(page:number){
+    this.pageSelected = page;
+    this.detallesParciales = this.detallesPorBusqueda.slice(page * 10 - 10, page * 10)
+  }
+
+  mostrarParcial(page: number) {
+    this.pageSelected = page;
+    this.detallesParciales = this.detalles.slice(page * 10 - 10, page * 10)
+  }
+
+
+
   public async abrirModal(elemento: any) {
-    console.log(elemento)
     let modalRef;
 
     try {
@@ -99,56 +159,47 @@ export class DetalleComponent implements OnInit {
     }).then((result) => {
       let contador = 0;
       if (result.isConfirmed) {
-        var interval = setInterval(()=>{
-          contador++;
-          this.descargando = 'Descargando ' + (contador) + ' de ' + this.detalles.length + '.....'
-          this.descargarDetalle(this.detalles[contador-1]);
-          if(contador === this.detalles.length ){
-            clearInterval(interval)
-            Swal.fire('Descarga satisfactoria', 'Los documentos se descargaron satisfactoriamente', 'success');
-            this.descargando = ''
-          }
+
+        if(this.detallesPorBusqueda.length == 0){
+
+          var interval = setInterval(() => {
+            contador++;
+            this.descargando = 'Descargando ' + (contador) + ' de ' + this.detalles.length + '.....'
+            this.descargarDetalle(this.detalles[contador - 1]);
+            if (contador === this.detalles.length) {
+              clearInterval(interval)
+              Swal.fire('Descarga satisfactoria', 'Los documentos se descargaron satisfactoriamente', 'success');
+              this.descargando = ''
+            }
+          }, 300)
+        }else{
+          var interval = setInterval(() => {
+            contador++;
+            this.descargando = 'Descargando ' + (contador) + ' de ' + this.detallesPorBusqueda.length + '.....'
+            this.descargarDetalle(this.detallesPorBusqueda[contador - 1]);
+            if (contador === this.detallesPorBusqueda.length) {
+              clearInterval(interval)
+              Swal.fire('Descarga satisfactoria', 'Los documentos se descargaron satisfactoriamente', 'success');
+              this.descargando = ''
+            }
+          }, 300)
         }
-        ,300)
-        // this.descargando = 'Descargando...';
-        // asyncScheduler.schedule(()=>{
-
-        // },200)
-        // const src$ = range(0, this.detalles.length, asyncScheduler);
-        // src$
-        //   .pipe(
-        //     timeout(500)
-        //   )
-        //   .subscribe((contador) => {
 
 
-        //     this.descargando = 'Descargando ' + (contador + 1) + ' de ' + this.detalles.length + '.....'
-        //     this.descargarDetalle(this.detalles[contador]);
-
-
-        //     if (contador == this.detalles.length - 1) {
-        //       Swal.fire('Enhorabuena!', 'Descargas completadas', 'success');
-        //       // this.descargando = ''
-        //     }
-
-
-
-        //   })
+      
       }
     })
 
   }
-  regresar() {
+  public regresar() {
     history.go(-1)
   }
   descargarDetalle(detalle: any) {
 
     let doc = new jsPDF();
-    // console.log(detalle);
     doc.setFontSize(10);
     doc.addFileToVFS('SEGOEUI-normal.ttf', token)
     doc.addFont('SEGOEUI-normal.ttf', 'SEGOEUI', 'normal');
-    // console.log(doc.getFontList());
 
     doc.setFillColor(255, 255, 200);
     doc.rect(15, 11, 73, 10, 'F');
@@ -251,25 +302,11 @@ export class DetalleComponent implements OnInit {
   }
   extraerMesAnioCorchete(fecha: any) {
     let arrayfecha = fecha.split('-');
-    // console.log(arrayfecha);
     let anio = arrayfecha[0];
     let mes = arrayfecha[1];
     let dia = arrayfecha[2];
 
-    // switch(mes){
-    //   case "01": mes = 'ENERO';break;
-    //   case "02": mes = 'FEBRERO';break;
-    //   case "03": mes = 'MARZO';break;
-    //   case "04": mes = 'ABRIL';break;
-    //   case "05": mes = 'MAYO';break;
-    //   case "06": mes = 'JUNIO';break;
-    //   case "07": mes = 'JULIO';break;
-    //   case "08": mes = 'AGOSTO';break;
-    //   case "09": mes = 'SETIEMBRE';break;
-    //   case "10": mes = 'OCTUBRE';break;
-    //   case "11": mes = 'NOVIEMBRE';break;
-    //   case "12": mes = 'DICIEMBRE';break;
-    // }
+    
 
     return mes + "." + anio;
   }

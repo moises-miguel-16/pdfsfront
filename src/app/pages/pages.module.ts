@@ -8,6 +8,7 @@ import { PagesComponent } from './pages.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DetalleComponent } from './dashboard/detalle/detalle.component';
 import { ModalDetalleComponent } from './dashboard/modal-detalle/modal-detalle.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,13 +16,16 @@ import { ModalDetalleComponent } from './dashboard/modal-detalle/modal-detalle.c
     DashboardComponent,
     PagesComponent,
     DetalleComponent,
-    ModalDetalleComponent
+    ModalDetalleComponent,
+
   ],
   imports: [
     CommonModule,
     PagesRoutingModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports:[
     PagesComponent,
