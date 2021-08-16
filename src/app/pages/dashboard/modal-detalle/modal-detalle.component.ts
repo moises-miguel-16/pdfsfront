@@ -1,4 +1,4 @@
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, Input, OnInit } from '@angular/core';
 import { jsPDF } from "jspdf";
 import { token } from "../detalle/SEGOEUI-normal"
@@ -31,11 +31,6 @@ export class ModalDetalleComponent implements OnInit {
 
   descargarUnico(){
     this.descargarDetalle(this.Elemento);
- 
-
-    // this.descargarDetalle(this.detalles[0]);
-    // this.descargarDetalle(this.detalles[21]);
-    // this.descargarDetalle(this.detalles[2]);
   }
   descargarDetalle( detalle:any ){
     this.descargando = true;

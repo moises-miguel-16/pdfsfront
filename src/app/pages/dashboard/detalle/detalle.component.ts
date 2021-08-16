@@ -6,8 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { jsPDF } from "jspdf";
 import { token } from "./SEGOEUI-normal"
-import { of, range, asyncScheduler } from 'rxjs';
-import { delay, timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-detalle',
@@ -16,8 +14,6 @@ import { delay, timeout } from 'rxjs/operators';
 })
 export class DetalleComponent implements OnInit {
   public id: any;
-  // public fechaInicio:any;
-  // public fechaFin:any;
 
   public mostrarPaginacion = true;
   public descripcion: any;
@@ -64,6 +60,8 @@ export class DetalleComponent implements OnInit {
 
     if (palabra.length > 0) {
       this.detalles.forEach((pal: any) => {
+
+        //CADA CASO ES UNA UNION
         let union1 = pal.nombre.toLowerCase()+pal.apellido.toLowerCase()+pal.cargo.toLowerCase()
         let union2 = pal.nombre.toLowerCase()+pal.cargo.toLowerCase()+pal.apellido.toLowerCase()
         let union3 = pal.cargo.toLowerCase()+pal.nombre.toLowerCase()+pal.apellido.toLowerCase()
@@ -76,6 +74,8 @@ export class DetalleComponent implements OnInit {
         if (pal.nombre.toLowerCase().includes(palabra.toLowerCase()) ||
          pal.apellido.toLowerCase().includes(palabra.toLowerCase()) ||
          pal.cargo.toLowerCase().includes(palabra.toLowerCase())  ||
+
+         //UNION POR CADA CASO
          union1.includes(palabra.toLowerCase().replace(/\s+/g, '')) ||
          union2.includes(palabra.toLowerCase().replace(/\s+/g, '')) ||
          union3.includes(palabra.toLowerCase().replace(/\s+/g, '')) ||
